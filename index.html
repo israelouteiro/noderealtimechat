@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>REDIS</title>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	</head>
+	<body>
+
+		<div class="mdl-textfield mdl-js-textfield">
+		    <textarea class="mdl-textfield__input" type="text" rows= "3" id="sample5" ></textarea>
+		    <label class="mdl-textfield__label" for="sample5">Type Sometext</label>
+		</div>
+			
+			<br>
+
+		<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+		  Send IT
+		</button>
+
+
+		<ul class='mdl-list'> 
+		</ul>
+
+
+		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
+		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<script>
+			
+			var socket;
+
+			$(document).ready(function(){
+				socket = io()
+				socket.on('chat.message', function(message){ 
+					var lit = $('<li/>', {
+						class:'mdl-list__item'
+					}).html(message)
+					$('.mdl-list').append(lit);
+				})
+			}); 
+
+			$('button').click(function(){ 
+				sendingSocket( $('#sample5').val() )
+				$('#sample5').val('')	
+			})
+
+			var sendingSocket = function(text){
+				socket.emit('chat.message',	text)
+			};
+
+		</script> 
+
+	</body>
+</html>
